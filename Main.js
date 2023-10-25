@@ -12,7 +12,8 @@ const generateMatrix = () => {
   return matrix;
 };
 
-const helper = (dp, matrix, r, c) => {
+// solution function
+const maxMoves = (dp, matrix, r, c) => {
   let m = matrix.length;
   let n = matrix[0].length;
   if (c == n - 1) return c;
@@ -20,19 +21,19 @@ const helper = (dp, matrix, r, c) => {
     if (dp[r][c + 1] != -1) {
       return dp[r][c + 1];
     }
-    return (dp[r][c + 1] = helper(dp, matrix, r, c + 1));
+    return (dp[r][c + 1] = maxMoves(dp, matrix, r, c + 1));
   }
   if (r != 0 && matrix[r - 1][c + 1] > matrix[r][c]) {
     if (dp[r - 1][c + 1] != -1) {
       return dp[r - 1][c + 1];
     }
-    return (dp[r - 1][c + 1] = helper(dp, matrix, r - 1, c + 1));
+    return (dp[r - 1][c + 1] = maxMoves(dp, matrix, r - 1, c + 1));
   }
   if (r != m - 1 && matrix[r + 1][c + 1] > matrix[r][c]) {
     if (dp[r + 1][c + 1] != -1) {
       return dp[r + 1][c + 1];
     }
-    return (dp[r + 1][c + 1] = helper(dp, matrix, r + 1, c + 1));
+    return (dp[r + 1][c + 1] = maxMoves(dp, matrix, r + 1, c + 1));
   } else return c;
 };
 
@@ -57,7 +58,7 @@ const main = () => {
   }
 
   for (let i = 0; i < m; i++) {
-    dp[i] = Math.max(dp[Math.max(0, i - 1)], helper(dp1, matrix, i, 0));
+    dp[i] = Math.max(dp[Math.max(0, i - 1)], maxMoves(dp1, matrix, i, 0));
   }
 
   console.log(dp[m - 1]);
